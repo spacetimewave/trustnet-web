@@ -1,10 +1,10 @@
 import {
 	generateKeyPair,
 	SignJWT,
-	importPKCS8,
 	exportJWK,
 	JWK,
 	importJWK,
+	jwtVerify,
 } from 'jose'
 
 const ALGORITHM = 'RS256'
@@ -30,6 +30,9 @@ export const Login = async (
 	publicKey: string,
 	privateKey: string,
 ): Promise<string> => {
+	const success = await VerifyKeyPair(publicKey, privateKey)
+	if (!success) throw new Error('Invalid key pair')
+
 	const privateKeyJWK = JSON.parse(privateKey) as JWK
 
 	const payload = {
@@ -47,4 +50,29 @@ export const Login = async (
 
 export const Signup = async (): Promise<IKeyPair> => {
 	return await GenerateKeyPair()
+}
+
+export const VerifyKeyPair = async (
+	publicKey: string,
+	privateKey: string,
+): Promise<boolean> => {
+	const privateKeyJWK = JSON.parse(privateKey) as JWK
+	const publicKeyJWK = JSON.parse(publicKey) as JWK
+
+	const privateKeyObj = await importJWK(privateKeyJWK, ALGORITHM)
+	const publicKeyObj = await importJWK(publicKeyJWK, ALGORITHM)
+
+	const message = 'test message'
+	const payload = { message }
+
+	const token = await new SignJWT(payload)
+		.setProtectedHeader({ alg: ALGORITHM })
+		.sign(privateKeyObj)
+
+	try {
+		const { payload: verifiedPayload } = await jwtVerify(token, publicKeyObj)
+		return verifiedPayload.message === message
+	} catch {
+		return false
+	}
 }
