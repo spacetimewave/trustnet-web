@@ -13,8 +13,6 @@ export default function Login() {
 	const [privateKey, setPrivateKey] = useState('')
 
 	const handleLogin = async (): Promise<void> => {
-		console.log('Logged in', publicKey, privateKey)
-
 		await login({ publicKey, privateKey })
 		navigate('/feed')
 	}

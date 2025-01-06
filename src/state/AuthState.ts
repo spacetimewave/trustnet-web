@@ -48,11 +48,9 @@ export const signup = async (): Promise<IKeyPair> => {
 
 export const login = async (keyPair: IKeyPair): Promise<void> => {
 	try {
-		console.log('Logged in')
 		const token = await Login(keyPair.publicKey, keyPair.privateKey)
 		setPublicKey(keyPair.publicKey)
 		setToken(token)
-		console.log('Logged in', token)
 	} catch (error) {
 		console.error(error)
 		throw error
