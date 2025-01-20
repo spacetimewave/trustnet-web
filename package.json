@@ -12,8 +12,6 @@
   },
   "dependencies": {
     "@spacetimewave/trustnet-engine": "0.3.4",
-    "buffer": "^6.0.3",
-    "jose": "^5.9.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
