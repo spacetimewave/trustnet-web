@@ -4,20 +4,20 @@ import styles from './index.module.css'
 import logo from '../../assets/images/logo.png'
 import Button from '../../components/Button'
 import CrossIcon from '../../assets/icons/CrossIcon'
-import { signup } from '../../state/AuthState'
+import { signUp } from '../../state/AuthState'
 import SignupModal from '../../components/SignupModal'
+import { IKeyPair } from '@spacetimewave/trustnet-engine'
 
 export default function Signup() {
   const navigate = useNavigate()
   const [showModal, setShowModal] = useState(false)
-  const [publicKey, setPublicKey] = useState('')
-  const [privateKey, setPrivateKey] = useState('')
+  const [accountKeyPair, setAccountKeyPair] = useState<IKeyPair | undefined>(undefined)
+  const [blockKeyPair, setBlockKeyPair] = useState<IKeyPair | undefined>(undefined)
 
   const handleSignup = async (): Promise<void> => {
-    // Generate keys (replace with actual key generation logic)
-    const keyPair = await signup()
-	setPublicKey(keyPair.publicKey)
-	setPrivateKey(keyPair.privateKey)
+    const {accountKeyPair, blockKeyPair} = await signUp()
+    setAccountKeyPair(accountKeyPair)
+    setBlockKeyPair(blockKeyPair)
     setShowModal(true)
   }
 
@@ -28,10 +28,10 @@ export default function Signup() {
 
   return (
     <div className={styles.container}>
-      {showModal && (
+      {(showModal && accountKeyPair && blockKeyPair) && (
         <SignupModal
-          publicKey={publicKey}
-          privateKey={privateKey}
+          accountKeyPair={accountKeyPair}
+          blockKeyPair={blockKeyPair}
           onClose={() => setShowModal(false)}
           onContinue={handleContinue}
         />

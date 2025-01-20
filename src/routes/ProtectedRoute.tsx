@@ -1,15 +1,24 @@
 import { Navigate } from 'react-router-dom'
 
-import { useCredentialStore } from '../state/AuthState'
-import { ReactNode } from 'react'
+import { isLoggedIn, useCredentialStore } from '../state/AuthState'
+import { ReactNode, useEffect, useState } from 'react'
 
 interface Props {
 	children: ReactNode
 }
 
 function ProtectedRoute({ children }: Props) {
-	const { publicKey, token } = useCredentialStore()
-	if (!publicKey && !token) {
+    const {account} = useCredentialStore()
+
+	const [isAccountLoggedIn, setIsAccountLoggedIn] = useState(isLoggedIn())	
+
+    useEffect(() => {
+        if (!account) {
+            setIsAccountLoggedIn(false)
+        }
+    }, [account])
+
+	if (!isAccountLoggedIn) {
 		return <Navigate to='/' replace />
 	}
 	return children
