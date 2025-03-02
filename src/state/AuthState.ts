@@ -41,17 +41,14 @@ export const SignUp = async (
 	}
 }
 
-export const login = async (
-	username: string,
+export const Login = async (
+	domainName: string,
 	blockPrivateKey: string,
 ): Promise<void> => {
 	try {
 		const setAccount = useCredentialStore.getState().setAccount
 		const account = new Account()
-
-		const o = await account.getDnsRecord(username, blockPrivateKey)
-		// await account.login(blockPrivateKey, o.blockPublicKey)
-		console.log(o)
+		await account.login(domainName, blockPrivateKey)
 		setAccount(account)
 	} catch (error) {
 		console.error(error)

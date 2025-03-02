@@ -5,21 +5,17 @@ import logo from '../../assets/images/logo.png'
 import Button from '../../components/Button'
 import Input from '../../components/Input'
 import CrossIcon from '../../assets/icons/CrossIcon'
-import { login } from '../../state/AuthState'
+import { Login as login } from '../../state/AuthState'
 
 export default function Login() {
 	const navigate = useNavigate()
-	const [username, setUsername] = useState('')
+	const [domainName, setDomainName] = useState('')
 	const [blockPrivateKey, setBlockPrivateKey] = useState('')
 
 	const handleLogin = async (): Promise<void> => {
-		await login(username, blockPrivateKey)
+		await login(domainName, blockPrivateKey)
 		navigate('/feed')
 	}
-
-	// const handleUsernameAndPublicKeyInput = async (): Promise<void> => {
-
-	// }
 
 	return (
 		<div className={styles.container}>
@@ -36,12 +32,16 @@ export default function Login() {
 
 				<Input
 					placeholder='Username'
-					onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setUsername(ev.target.value)}
+					onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
+						setDomainName(ev.target.value)
+					}
 				/>
 				<Input
 					placeholder='Block private key'
 					type='password'
-					onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setBlockPrivateKey(ev.target.value)}
+					onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
+						setBlockPrivateKey(ev.target.value)
+					}
 				/>
 				<Button color='black' onClick={handleLogin}>
 					Next
