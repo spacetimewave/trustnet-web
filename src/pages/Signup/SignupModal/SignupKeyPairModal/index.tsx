@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import CopyIcon from '../../assets/icons/CopyIcon'
+import CopyIcon from '../../../../assets/icons/CopyIcon'
 import { IKeyPair } from '@spacetimewave/trustnet-engine'
 
 interface Props {
@@ -9,12 +9,13 @@ interface Props {
 	onContinue: () => void
 }
 
-const SignupModal: React.FC<Props> = ({
+const SignupKeyPairModal: React.FC<Props> = ({
 	accountKeyPair,
 	blockKeyPair,
 	onClose,
 	onContinue,
 }) => {
+
 	const [toastVisible, setToastVisible] = useState(false)
 
 	const copyToClipboard = (text: string) => {
@@ -113,4 +114,4 @@ const SignupModal: React.FC<Props> = ({
 	)
 }
 
-export default SignupModal
+export default SignupKeyPairModal

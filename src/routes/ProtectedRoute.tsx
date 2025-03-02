@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom'
 
-import { isLoggedIn, useCredentialStore } from '../state/AuthState'
+import { IsLoggedIn, useCredentialStore } from '../state/AuthState'
 import { ReactNode, useEffect, useState } from 'react'
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 function ProtectedRoute({ children }: Props) {
     const {account} = useCredentialStore()
 
-	const [isAccountLoggedIn, setIsAccountLoggedIn] = useState(isLoggedIn())	
+	const [isAccountLoggedIn, setIsAccountLoggedIn] = useState(IsLoggedIn())	
 
     useEffect(() => {
         if (!account) {

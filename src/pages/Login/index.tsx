@@ -9,13 +9,17 @@ import { login } from '../../state/AuthState'
 
 export default function Login() {
 	const navigate = useNavigate()
-	const [publicKey, setPublicKey] = useState('')
-	const [privateKey, setPrivateKey] = useState('')
+	const [username, setUsername] = useState('')
+	const [blockPrivateKey, setBlockPrivateKey] = useState('')
 
 	const handleLogin = async (): Promise<void> => {
-		await login({ publicKey, privateKey })
+		await login(username, blockPrivateKey)
 		navigate('/feed')
 	}
+
+	// const handleUsernameAndPublicKeyInput = async (): Promise<void> => {
+
+	// }
 
 	return (
 		<div className={styles.container}>
@@ -31,13 +35,13 @@ export default function Login() {
 				<h2 className={styles.title}>Sign in to Raptor</h2>
 
 				<Input
-					placeholder='Enter your public key'
-					onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setPublicKey(ev.target.value)}
+					placeholder='Username'
+					onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setUsername(ev.target.value)}
 				/>
 				<Input
-					placeholder='Enter your private key'
+					placeholder='Block private key'
 					type='password'
-					onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setPrivateKey(ev.target.value)}
+					onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setBlockPrivateKey(ev.target.value)}
 				/>
 				<Button color='black' onClick={handleLogin}>
 					Next
