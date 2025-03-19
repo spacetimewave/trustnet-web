@@ -11,10 +11,19 @@ export default function Login() {
 	const navigate = useNavigate()
 	const [domainName, setDomainName] = useState('')
 	const [blockPrivateKey, setBlockPrivateKey] = useState('')
-
+	const [errorMessage, setErrorMessage] = useState('')
 	const handleLogin = async (): Promise<void> => {
-		await login(domainName, blockPrivateKey)
-		navigate('/feed')
+		const success = await login(domainName, blockPrivateKey)
+		if (!success) {
+			setErrorMessage(
+				'Login failed. Please check your credentials and try again.',
+			)
+			setTimeout(() => {
+				setErrorMessage('')
+			}, 5000) // Hide toast after 5 seconds
+		} else {
+			navigate('/feed')
+		}
 	}
 
 	return (
@@ -50,6 +59,12 @@ export default function Login() {
 				<p>
 					Don't have an account? <Link to='/signup'>Sign up</Link>
 				</p>
+
+				{errorMessage && (
+					<div className='fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-red-200 text-red-800 px-4 py-2 rounded'>
+						{errorMessage}
+					</div>
+				)}
 			</main>
 		</div>
 	)

@@ -44,16 +44,15 @@ export const SignUp = async (
 export const Login = async (
 	domainName: string,
 	blockPrivateKey: string,
-): Promise<void> => {
-	try {
-		const setAccount = useCredentialStore.getState().setAccount
-		const account = new Account()
-		await account.login(domainName, blockPrivateKey)
-		setAccount(account)
-	} catch (error) {
-		console.error(error)
-		throw error
+): Promise<boolean> => {
+	const setAccount = useCredentialStore.getState().setAccount
+	const account = new Account()
+	const success = await account.login(domainName, blockPrivateKey)
+	if (!success) {
+		return false
 	}
+	setAccount(account)
+	return true
 }
 
 export const IsLoggedIn = (): boolean => {
